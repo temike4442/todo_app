@@ -54,25 +54,32 @@ class _MainScreenState extends State<MainScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(onPressed: (){
-              set_prefs('counter');
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("Присвоено!!!"),
-              ));
-            }, child: Text('set prefs')),
-            ElevatedButton(onPressed: (){
-              delete_prefs('counter');
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("Удалено!!!"),
-              ));
-            }, child: Text('delete prefs')),
-          ],
-        ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            expandedHeight: 160,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text('SliverAppBar'),
+
+              background: Image.asset('assets/images/no_image.png'),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                return Container(
+                  color: index.isOdd ? Colors.white : Colors.black12,
+                  height: 100.0,
+                  child: Center(
+                    child: Text('$index', textScaleFactor: 5),
+                  ),
+                );
+              },
+              childCount: 4,
+            ),
+          ),
+        ],
       ),
     );
   }
