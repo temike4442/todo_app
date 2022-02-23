@@ -64,7 +64,7 @@ flutter:
   assets:
     - assets/images/bg.jpg
     - assets/images/finger.png
-    - assets/images/no_image.png
+    - assets/images/no_image.jpg
 
   #   - images/a_dot_ham.jpeg
 

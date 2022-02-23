@@ -12,9 +12,9 @@ void main() {
   ));
 }
 
-class SplashScreen extends StatelessWidget{
+class SplashScreen extends StatelessWidget {
 
-  Future<bool> check_prefs() async{
+  Future<bool> check_prefs() async {
     final prefs = await SharedPreferences.getInstance();
     final int? counter = prefs.getInt('counter');
     if (counter != null) return true;
@@ -25,27 +25,28 @@ class SplashScreen extends StatelessWidget{
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: check_prefs(),
-          builder: (BuildContext context,AsyncSnapshot snapshot){
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData)
-          return snapshot.data == true ? PassCodeScreen():
-          MainScreen();
-          else return CircularProgressIndicator();
-    });
+            return snapshot.data == true ? PassCodeScreen() :
+            MainScreen();
+          else
+            return CircularProgressIndicator();
+        });
   }
 }
 
-class MainScreen extends StatefulWidget{
+class MainScreen extends StatefulWidget {
   _MainScreenState createState() => new _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen>{
+class _MainScreenState extends State<MainScreen> {
 
-  Future<void> set_prefs(String _key) async{
+  Future<void> set_prefs(String _key) async {
     final prefs = await SharedPreferences.getInstance();
-    await  prefs.setInt(_key,10);
+    await prefs.setInt(_key, 10);
   }
 
-  Future<void> delete_prefs(String _key) async{
+  Future<void> delete_prefs(String _key) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_key);
   }
@@ -54,33 +55,23 @@ class _MainScreenState extends State<MainScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            pinned: true,
-            expandedHeight: 160,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text('SliverAppBar'),
-
-              background: Image.asset('assets/images/no_image.png'),
-            ),
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                return Container(
-                  color: index.isOdd ? Colors.white : Colors.black12,
-                  height: 100.0,
-                  child: Center(
-                    child: Text('$index', textScaleFactor: 5),
-                  ),
-                );
-              },
-              childCount: 4,
-            ),
-          ),
-        ],
-      ),
+      appBar: AppBar(),
+      body:
+      ListView(
+      children: [
+      ExpansionTile(
+      title: Text('Задачи'),
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: 4,
+          itemBuilder: (context, index) =>
+              ListTile(title: Text("4"),),
+        )
+      ],
+    ),
+    ],
+    )
     );
   }
 }
@@ -88,6 +79,7 @@ class _MainScreenState extends State<MainScreen>{
 
 class PassCodeScreen extends StatefulWidget {
   PassCodeScreen({Key? key}) : super(key: key);
+
   @override
   _PassCodeScreenState createState() => new _PassCodeScreenState();
 }
